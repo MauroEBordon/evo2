@@ -1,7 +1,7 @@
 -lib heaps
 -lib castle
 -cp src
--js .js
+-js game.js
 -main Game
 -D windowSize=1024x1024
 -dce full
