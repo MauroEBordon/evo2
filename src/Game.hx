@@ -1,18 +1,25 @@
+import h2d.Camera;
 import Data;
 
 class Game extends hxd.App {
 
 	var fps: h2d.Text;
 	var worm: Worm;
+	var vel: Int;
 	
 	override function init(){
 		fps = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-		worm = new Worm(100, 100, 300, 300);
+		worm = new Worm(200, 100, 300, 300);
 		worm.stroke();
+		vel = -1;
+
 	}
 	override function update(dt: Float){
-		fps.text = Std.string(Math.ceil(1/dt));
+		
 		worm.update();
+		worm.walk();
+		fps.text = Std.string(Math.ceil(1/dt));
+
 	}
 
 	public static var inst : Game;
@@ -21,6 +28,6 @@ class Game extends hxd.App {
 		
 		inst = new Game();
 		Data.load(haxe.Resource.getString("data.cdb"));
-
+		
 	}
 }
