@@ -18,8 +18,9 @@ class Worm extends Entity{
 	var step_time_limit: Float;
 	var tick_time: Float;
 	var global_tick: Float;
-	var velrng: Float;
-	public function new(hx=450, hy=450, tx=550, ty=550, wid=100, hei=30){
+	var maxvel: Float;
+	public function new(hx=475, hy=500, tx=525, ty=500, wid=50, hei=15,
+						rch=85, mvel=1.20, stptime=1){
 		super();
 		game = Game.inst;
 		head = new h2d.Graphics(game.s2d);
@@ -35,15 +36,15 @@ class Worm extends Entity{
 		y = Math.floor((head.y + tail.y)/2);
 		rotation = Math.atan2(tail.y - head.y, tail.x - head.x);
 		size = Math.sqrt(Math.pow(head.x-tail.x, 2) + Math.pow(head.y-tail.y,2));
-		velocity = new h3d.Vector(1,1);
+		velocity = new h3d.Vector(0,0);
 		acceleration = new h3d.Vector();
 		step_time = 0;
 		tick_time = 0;
-		global_tick = 2;
+		global_tick = 2*stptime;
 		turn = 1;
-		reach = 120;
-		step_time_limit = 1;
-		velrng = 1.5;
+		reach = rch;
+		step_time_limit = stptime;
+		maxvel = mvel;
 	}
 
 	public function stroke() {
@@ -69,8 +70,8 @@ class Worm extends Entity{
 		line.drawRect(0,-height, size, 2*height);
 		line.endFill();
 		if (global_tick < tick_time){
-			velocity.x = Math.random() * velrng*2 - velrng;
-			velocity.y = Math.random() * velrng*2 - velrng;
+			velocity.x = Math.random() * maxvel*2 - maxvel;
+			velocity.y = Math.random() * maxvel*2 - maxvel;
 			tick_time = 0;
 		}
 	}
