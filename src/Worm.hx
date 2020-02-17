@@ -13,9 +13,12 @@ class Worm extends Entity{
 	public var height: Int;
 	public var size: Float;
 
-	var step_time: Float;
 	var turn: Int;
-	
+	var step_time: Float;
+	var step_time_limit: Float;
+	var tick_time: Float;
+	var global_tick: Float;
+	var velrng: Float;
 	public function new(hx=450, hy=450, tx=550, ty=550, wid=100, hei=30){
 		super();
 		game = Game.inst;
@@ -35,7 +38,12 @@ class Worm extends Entity{
 		velocity = new h3d.Vector(1,1);
 		acceleration = new h3d.Vector();
 		step_time = 0;
+		tick_time = 0;
+		global_tick = 2;
 		turn = 1;
+		reach = 120;
+		step_time_limit = 1;
+		velrng = 1.5;
 	}
 
 	public function stroke() {
@@ -60,12 +68,19 @@ class Worm extends Entity{
 		line.beginFill(0x2245DDFF);
 		line.drawRect(0,-height, size, 2*height);
 		line.endFill();
+		if (global_tick < tick_time){
+			velocity.x = Math.random() * velrng*2 - velrng;
+			velocity.y = Math.random() * velrng*2 - velrng;
+			tick_time = 0;
+		}
 	}
 
 	public function walk(dt: Float) {
 
 		step_time += dt;
-		if(1 < step_time){
+		tick_time += dt;
+
+		if(step_time_limit < step_time){
 			step_time = 0;
 			turn ^= 1;
 		}
@@ -77,7 +92,12 @@ class Worm extends Entity{
 		}
 	}
 	function step(part: h2d.Graphics){
+		if(reach < Math.abs(size)){
+			tail.x = head.x;
+			tail.y = head.y;
+		}
 		part.x += velocity.x;
-		part.y += velocity.x;
+		part.y += velocity.y;
+
 	}
 }

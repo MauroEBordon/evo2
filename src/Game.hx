@@ -2,22 +2,20 @@ import Data;
 
 class Game extends hxd.App {
 
-	var fps: h2d.Text;
+	var debug: h2d.Text;
 	var worm: Worm;
-	var vel: Int;
-	
+	public var time: Float;	
 	override function init(){
-		fps = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-		worm = new Worm(200, 100, 300, 300);
+		debug = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+		worm = new Worm(450, 500, 550, 500);
 		worm.stroke();
-		vel = -1;
-
+		time = 0;
 	}
 	override function update(dt: Float){
-		
+		time += dt;
 		worm.update(dt);
 		worm.walk(dt);
-		fps.text = Std.string(Math.ceil(1/dt));
+		debug.text = Std.string(Math.ceil(1/dt))+"\n"+Std.string(Math.floor(time));
 
 	}
 
