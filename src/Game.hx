@@ -1,4 +1,3 @@
-import h2d.Camera;
 import Data;
 
 class Game extends hxd.App {
@@ -16,8 +15,8 @@ class Game extends hxd.App {
 	}
 	override function update(dt: Float){
 		
-		worm.update();
-		worm.walk();
+		worm.update(dt);
+		worm.walk(dt);
 		fps.text = Std.string(Math.ceil(1/dt));
 
 	}
